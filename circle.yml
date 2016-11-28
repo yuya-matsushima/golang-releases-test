@@ -40,5 +40,5 @@ deployment:
   master:
     branch: master
     commands:
-      - cd "$GOPATH/src/$IMPORT_PATH"; go build . > $CIRCLE_ARTIFACTS/
+      - cd "$GOPATH/src/$IMPORT_PATH"; go build -o $CIRCLE_ARTIFACTS/test
       - ghr -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -c `git rev-parse --short HEAD` `git describe --tags --abbrev=0` $CIRCLE_ARTIFACTS/
