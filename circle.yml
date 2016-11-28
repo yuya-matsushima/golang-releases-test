@@ -23,6 +23,7 @@ dependencies:
     - bash ~/golang-releases-test/circleci/install-go.sh
   override:
     - go get -u github.com/golang/lint/golint
+    - go get -u github.com/tcnksm/ghr
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
 
@@ -34,3 +35,10 @@ test:
     - golint .
     - cd "$GOPATH/src/$IMPORT_PATH"; go test -v -cover .:
         timeout: 600
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - cd "$GOPATH/src/$IMPORT_PATH"; go build . > $CIRCLE_ARTIFACTS/test_`git descrive --tags`
+      - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME $CIRCLE_ARTIFACTS/
