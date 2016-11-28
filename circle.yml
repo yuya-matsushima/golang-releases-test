@@ -33,7 +33,7 @@ test:
   override:
     - go vet .
     - golint .
-    - cd "$GOPATH/src/$IMPORT_PATH"; go test -v -cover .:
+    - go test -v -cover .:
         timeout: 600
 
 deployment:
