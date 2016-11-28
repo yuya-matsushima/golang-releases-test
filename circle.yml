@@ -1,0 +1,36 @@
+general:
+  branches:
+    only:
+      - master
+      - develop
+      - /feature\/.*/
+
+machine:
+  timezone:
+    UTC
+  services:
+    - docker
+  environment:
+    IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+    GOROOT: $HOME/golang
+    GOPATH: $HOME/go
+    PATH: $GOROOT/bin:$GOPATH/bin:$PATH
+
+dependencies:
+  cache_directories:
+    - "~/golang"
+  pre:
+    - bash ~/golang-release-test/circleci/install-go.sh
+  override:
+    - go get -u github.com/golang/lint/golint
+    - mkdir -p "$GOPATH/src/$IMPORT_PATH"
+    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
+
+test:
+  pre:
+    - go version
+  override:
+    - go vet .
+    - golint .
+    - cd "$GOPATH/src/$IMPORT_PATH"; go test -v -cover .:
+        timeout: 600
