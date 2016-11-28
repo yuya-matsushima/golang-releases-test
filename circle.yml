@@ -41,4 +41,4 @@ deployment:
     branch: master
     commands:
       - go build -o $CIRCLE_ARTIFACTS/test_`git describe --tags --abbrev=0`
-      - ghr -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME `git describe --tags --abbrev=0` $CIRCLE_ARTIFACTS/
+      - ghr -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME -delete `git describe --tags --abbrev=0` $CIRCLE_ARTIFACTS/
