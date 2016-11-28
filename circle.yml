@@ -20,7 +20,7 @@ dependencies:
   cache_directories:
     - "~/golang"
   pre:
-    - bash ~/golang-release-test/circleci/install-go.sh
+    - bash ~/golang-releases-test/circleci/install-go.sh
   override:
     - go get -u github.com/golang/lint/golint
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
